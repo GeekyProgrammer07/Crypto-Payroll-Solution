@@ -3,7 +3,7 @@ import { authRouter } from './authRouter';
 
 export const mainRouter = express.Router();
 
-mainRouter.route('/auth', authRouter);
+mainRouter.use('/auth', authRouter);
 // mainRouter.route('/invoices', invoicesRouter);
 // mainRouter.route('/payments', paymentsRouter);
 // mainRouter.route('/users', usersRouter);
