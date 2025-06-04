@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  passwordHash   String
+  role           String
+  walletAddress  String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  organisations  Organisation[]  @relation("UserOrganisations")
+  addedMembers   OrgMember[]     @relation("UserAddedMembers")
+  createdStreams Stream[]        @relation("UserCreatedStreams")
+  session        Session?
+}
+
+model Organisation {
+  id         String       @id @default(uuid())
+  name       String
+  ownerId    String
+  createdAt  DateTime     @default(now())
+
+  owner      User         @relation("UserOrganisations", fields: [ownerId], references: [id])
+  members    OrgMember[]  @relation("OrganisationMembers")
+  streams    Stream[]     @relation("OrganisationStreams")
+}
+
+model OrgMember {
+  id             String         @id @default(uuid())
+  orgId          String
+  walletAddress  String?
+  role           String
+  addedById      String
+  createdAt      DateTime       @default(now())
+
+  organisation   Organisation   @relation("OrganisationMembers", fields: [orgId], references: [id])
+  addedBy        User           @relation("UserAddedMembers", fields: [addedById], references: [id])
+  receivedStreams Stream[]      @relation("StreamReceivers")
+}
+
+model Token {
+  id           String    @id @default(uuid())
+  symbol       String
+  mintAddress  String
+  chain        String
+  decimals     Int
+
+  streams      Stream[]  @relation("TokenStreams")
+}
+
+model Stream {
+  id           String        @id @default(uuid())
+  orgId        String
+  createdById  String
+  receiverId   String
+  tokenId      String
+  amount       BigInt
+  cliffAmount  BigInt
+  startTime    DateTime
+  cliffTime    DateTime
+  interval     Int
+  status       String
+  onChainId    String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  organisation Organisation  @relation("OrganisationStreams", fields: [orgId], references: [id])
+  owner        User          @relation("UserCreatedStreams", fields: [createdById], references: [id])
+  receiver     OrgMember     @relation("StreamReceivers", fields: [receiverId], references: [id])
+  token        Token         @relation("TokenStreams", fields: [tokenId], references: [id])
+}
+
+model Session {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  token      String
+  expiresAt  DateTime
+  
+  user       User     @relation(fields: [userId], references: [id])
+}
