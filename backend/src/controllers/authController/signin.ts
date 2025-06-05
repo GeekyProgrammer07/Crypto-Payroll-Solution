@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import { signinSchema } from '../../types/signinSchema';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { get } from '../../config/config';
+import prisma from '../../utils/prismaClient';
 
-const prisma = new PrismaClient();
 const environment = 'default';
 const currentConfig = get(environment);
 
-export const signIn = async (req: Request, res: Response): Promise<any> => {
+const signIn = async (req: Request, res: Response): Promise<any> => {
     const parsedInputs = signinSchema.safeParse(req.body);
     if (!parsedInputs.success) {
         const errors = parsedInputs.error.flatten();

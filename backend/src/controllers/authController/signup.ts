@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { signupSchema } from '../../types/signupSchema';
+import prisma from '../../utils/prismaClient';
 
-const prisma = new PrismaClient();
 
 const signUp = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -40,18 +40,15 @@ const signUp = async (req: Request, res: Response): Promise<any> => {
 
   } catch (err) {
     console.error("Signup error:", err);
-
+    
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      return res.status(500).json({
-        message: "Database error",
-        code: err.code,
-      });
+      return res.status(500).json({ message: "Database error", code: err.code });
     }
-
     return res.status(500).json({
       message: "Internal server error",
-      error: err instanceof Error ? err.message : "Unknown error",
+      error: String(err)
     });
+
   }
 };
 

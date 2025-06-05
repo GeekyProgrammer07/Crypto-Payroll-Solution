@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from "./prismaClient";
 
 export const setupGracefulShutdown = () => {
   const shutdown = async () => {
