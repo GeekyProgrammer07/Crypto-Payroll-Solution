@@ -5,7 +5,7 @@ import { signupSchema } from '../../types/signupSchema';
 
 const prisma = new PrismaClient();
 
-export const signUp = async (req: Request, res: Response): Promise<any> => {
+const signUp = async (req: Request, res: Response): Promise<any> => {
   try {
     const parsedInputs = signupSchema.safeParse(req.body);
     if (!parsedInputs.success) {
@@ -55,6 +55,4 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const hello = (req: Request, res: Response) => {
-  res.status(200).json({ message: "Welcome to the Clumsy Time API!" });
-}
+export default signUp;
