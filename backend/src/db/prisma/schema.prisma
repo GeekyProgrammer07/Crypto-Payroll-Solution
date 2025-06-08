@@ -8,104 +8,107 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  email          String          @unique
-  passwordHash   String
-  role           String
-  walletAddress  String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String
+  role          String
+  walletAddress String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  organisations  Organisation[]  @relation("UserOrganisations")
-  addedMembers   OrgMember[]     @relation("UserAddedMembers")
-  createdStreams Stream[]        @relation("UserCreatedStreams")
-  invoices       Invoice[]       @relation("UserInvoices")
+  organisations  Organisation[] @relation("UserOrganisations")
+  addedMembers   OrgMember[]    @relation("UserAddedMembers")
+  createdStreams Stream[]       @relation("UserCreatedStreams")
+  invoices       Invoice[]      @relation("UserInvoices")
   session        Session?
+  orgMember      OrgMember?     @relation("UserOrgMember")
 }
 
 model Organisation {
-  id         String       @id @default(uuid())
-  name       String
-  ownerId    String
-  createdAt  DateTime     @default(now())
+  id        String   @id @default(uuid())
+  name      String   @unique
+  ownerId   String
+  createdAt DateTime @default(now())
 
-  owner      User         @relation("UserOrganisations", fields: [ownerId], references: [id])
-  members    OrgMember[]  @relation("OrganisationMembers")
-  streams    Stream[]     @relation("OrganisationStreams")
-  invoices   Invoice[]    @relation("OrganisationInvoices")
+  owner    User        @relation("UserOrganisations", fields: [ownerId], references: [id])
+  members  OrgMember[] @relation("OrganisationMembers")
+  streams  Stream[]    @relation("OrganisationStreams")
+  invoices Invoice[]   @relation("OrganisationInvoices")
 }
 
 model OrgMember {
-  id              String        @id @default(uuid())
-  orgId           String
-  walletAddress   String?
-  role            String
-  addedById       String
-  createdAt       DateTime      @default(now())
+  id            String   @id @default(uuid())
+  memberId      String   @unique
+  orgId         String
+  walletAddress String?
+  role          String
+  addedById     String
+  createdAt     DateTime @default(now())
 
-  organisation    Organisation  @relation("OrganisationMembers", fields: [orgId], references: [id])
-  addedBy         User          @relation("UserAddedMembers", fields: [addedById], references: [id])
-  receivedStreams Stream[]      @relation("StreamReceivers")
-  invoices        Invoice[]     @relation("OrgMemberInvoices")
+  organisation    Organisation @relation("OrganisationMembers", fields: [orgId], references: [id])
+  addedBy         User         @relation("UserAddedMembers", fields: [addedById], references: [id])
+  receivedStreams Stream[]     @relation("StreamReceivers")
+  invoices        Invoice[]    @relation("OrgMemberInvoices")
+  member          User         @relation("UserOrgMember", fields: [memberId], references: [id])
 }
 
 model Token {
-  id           String    @id @default(uuid())
-  symbol       String
-  mintAddress  String
-  chain        String
-  decimals     Int
+  id          String @id @default(uuid())
+  symbol      String
+  mintAddress String
+  chain       String
+  decimals    Int
 
-  streams      Stream[]  @relation("TokenStreams")
+  streams Stream[] @relation("TokenStreams")
 }
 
 model Stream {
-  id           String        @id @default(uuid())
-  orgId        String
-  createdById  String
-  receiverId   String
-  tokenId      String
-  amount       BigInt
-  cliffAmount  BigInt
-  startTime    DateTime
-  cliffTime    DateTime
-  interval     Int
-  status       String
-  onChainId    String
-  invoiceId    String?       @unique
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id          String   @id @default(uuid())
+  orgId       String
+  createdById String
+  receiverId  String
+  tokenId     String
+  amount      BigInt
+  cliffAmount BigInt
+  startTime   DateTime
+  cliffTime   DateTime
+  interval    Int
+  status      String
+  onChainId   String
+  invoiceId   String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  organisation Organisation  @relation("OrganisationStreams", fields: [orgId], references: [id])
-  owner        User          @relation("UserCreatedStreams", fields: [createdById], references: [id])
-  receiver     OrgMember     @relation("StreamReceivers", fields: [receiverId], references: [id])
-  token        Token         @relation("TokenStreams", fields: [tokenId], references: [id])
-  invoice      Invoice?      @relation("InvoiceToStream", fields: [invoiceId], references: [id])
+  organisation Organisation @relation("OrganisationStreams", fields: [orgId], references: [id])
+  owner        User         @relation("UserCreatedStreams", fields: [createdById], references: [id])
+  receiver     OrgMember    @relation("StreamReceivers", fields: [receiverId], references: [id])
+  token        Token        @relation("TokenStreams", fields: [tokenId], references: [id])
+  invoice      Invoice?     @relation("InvoiceToStream", fields: [invoiceId], references: [id])
 }
 
 model Invoice {
-  id             String       @id @default(uuid())
+  id             String   @id @default(uuid())
   organisationId String?
   userId         String?
   memberId       String?
-  currency       String       
+  currency       String
   amount         Float
-  status         String       
+  status         String
   dueDate        DateTime
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  organisation   Organisation? @relation("OrganisationInvoices", fields: [organisationId], references: [id])
-  user           User?         @relation("UserInvoices", fields: [userId], references: [id])
-  member         OrgMember?    @relation("OrgMemberInvoices", fields: [memberId], references: [id])
-  stream         Stream?       @relation("InvoiceToStream")
+  organisation Organisation? @relation("OrganisationInvoices", fields: [organisationId], references: [id])
+  user         User?         @relation("UserInvoices", fields: [userId], references: [id])
+  member       OrgMember?    @relation("OrgMemberInvoices", fields: [memberId], references: [id])
+  stream       Stream?       @relation("InvoiceToStream")
 }
 
 model Session {
-  id         String   @id @default(uuid())
-  userId     String   @unique
-  token      String
-  expiresAt  DateTime
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  token     String
+  expiresAt DateTime
 
-  user       User     @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
