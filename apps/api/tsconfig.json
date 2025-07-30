@@ -1,0 +1,10 @@
+{
+  "extends": "@crypto-payroll/typescript-config/backend.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "removeComments": true
+  },
+  "include": ["src/**/*", "index.ts"],
+  "exclude": ["node_modules", "dist"]
+}

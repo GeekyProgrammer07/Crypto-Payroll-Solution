@@ -1,0 +1,14 @@
+{
+  "extends": "@crypto-payroll/typescript-config/base.json",
+  "compilerOptions": {
+    "removeComments": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
