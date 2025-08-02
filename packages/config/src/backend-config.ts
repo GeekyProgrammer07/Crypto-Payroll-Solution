@@ -9,7 +9,7 @@ const config = {
     default: {
         PORT:3000,
         SECRET: 'mysecret',
-        DATABASE: 'postgresql://postgres:mysecretpassword@localhost:5432/postgres'
+        DATABASE: 'postgresql://postgres:mysecret@localhost:5432/crypto-payroll-database'
     }
 }
 

@@ -8,7 +8,7 @@ import { mainRouter } from './routes/mainRouter';
 const app = express();
 app.use(express.json());
 
-const environment = 'production';
+const environment = 'default';
 const currentConfig = get(environment);
 
 app.use('/api/v1', mainRouter);
