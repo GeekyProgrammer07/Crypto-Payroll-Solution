@@ -105,10 +105,10 @@ model Invoice {
 }
 
 model Session {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  token     String
-  expiresAt DateTime
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  refreshToken String
+  expiresAt    DateTime
 
   user User @relation(fields: [userId], references: [id])
 }
