@@ -2,7 +2,7 @@ import { AuthRequest } from "../../types/authRequestInterface";
 import { Response } from "express";
 import prisma from "../../utils/prismaClient";
 
-export const logOut = async (req: AuthRequest, res: Response): Promise<any> => {
+export const signOut = async (req: AuthRequest, res: Response): Promise<any> => {
   try {
 
     await prisma.session.delete({
@@ -16,9 +16,9 @@ export const logOut = async (req: AuthRequest, res: Response): Promise<any> => {
     });
     
   } catch (error) {
-    console.error("Logout error: ", error);
+    console.error("Signout error: ", error);
     return res.status(500).json({
-      message: "Internal server error during logout",
+      message: "Internal server error during Signout",
     });
   }
 };

@@ -11,13 +11,7 @@ const userInfo = async (req: AuthRequest, res: Response): Promise<any> => {
             select: {
                 id: true,
                 email: true,
-                createdAt: true,
-                session: {
-                    select: {
-                        token: true,
-                        expiresAt: true
-                    }
-                }
+                createdAt: true
             }
         });
         res.status(200).json({ user });

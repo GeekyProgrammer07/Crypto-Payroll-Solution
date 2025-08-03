@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import prisma from '../../utils/prismaClient';
 import { get } from '@crypto-payroll/config';
-import jwt from 'jsonwebtoken';
 import { signinSchema } from '@crypto-payroll/types';
 import { z } from 'zod';
 
@@ -10,73 +10,70 @@ const environment = 'default';
 const currentConfig = get(environment);
 
 const signIn = async (req: Request, res: Response): Promise<any> => {
-    const parsedInputs = signinSchema.safeParse(req.body);
-    if (!parsedInputs.success) {
-        const errors = z.treeifyError(parsedInputs.error);
-        return res.status(400).json({ errors });
+  const parsedInputs = signinSchema.safeParse(req.body);
+  if (!parsedInputs.success) {
+    const errors = z.treeifyError(parsedInputs.error);
+    return res.status(400).json({ errors });
+  }
+
+  const { email, password } = parsedInputs.data;
+
+  try {
+    const user = await prisma.user.findUniqueOrThrow({ where: { email } });
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const { email, password } = parsedInputs.data;
+    // Generate access token
+    const accessToken = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      currentConfig.SECRET!,
+      { expiresIn: '15m' }
+    );
 
-    try {
-        const user = await prisma.user.findUniqueOrThrow({ where: { email } });
-        const isMatch = await bcrypt.compare(password, user.passwordHash);
+    // Generate refresh token
+    const refreshToken = jwt.sign(
+      { id: user.id },
+      currentConfig.REFRESH_SECRET!,
+      { expiresIn: '7d' }
+    );
 
-        if (!isMatch) {
-            return res.status(401).json({ message: "Invalid credentials" });
-        }
+    await prisma.session.upsert({
+      where: { userId: user.id },
+      update: {
+        refreshToken,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      },
+      create: {
+        userId: user.id,
+        refreshToken,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      },
+    });
 
-        const existingSession = await prisma.session.findUnique({
-            where: { userId: user.id }
-        });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
-        const token = jwt.sign({
-            email: user.email,
-            role: user.role,
-        }, currentConfig.SECRET!, {
-            noTimestamp: true,
-            expiresIn: '1h',
-        });
+    return res.status(200).json({
+      message: 'Logged in successfully',
+      accessToken: `Bearer ${accessToken}`,
+    });
 
-        const newExpiry = new Date(Date.now() + 60 * 60 * 1000);
-
-        if (existingSession) {
-            if (existingSession.expiresAt > new Date()) {
-                return res.status(200).json({
-                    message: "Already logged in",
-                    token: `Bearer ${existingSession.token}`
-                });
-            } else {
-                await prisma.session.update({
-                    where: { userId: user.id },
-                    data: {
-                        token,
-                        expiresAt: newExpiry
-                    }
-                });
-            }
-        } else {
-            await prisma.session.create({
-                data: {
-                    userId: user.id,
-                    token,
-                    expiresAt: newExpiry
-                }
-            });
-        }
-
-        res.status(200).json({
-            message: "Logged in successfully",
-            token: `Bearer ${token}`
-        });
-
-    } catch (error: any) {
-        if (error.message?.includes("NotFound")) {
-            return res.status(400).json({ message: "Username not found" });
-        }
-        console.error(error);
-        return res.status(500).json({ message: "Something went wrong" });
-    }
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Internal server error'
+    });
+  }
 };
 
 export default signIn;
