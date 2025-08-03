@@ -12,7 +12,7 @@ app.use(cookieParser());
 
 
 const environment = 'default';
-const currentConfig = get(environment);
+export const currentConfig = get(environment);
 
 app.use('/api/v1', mainRouter);
 

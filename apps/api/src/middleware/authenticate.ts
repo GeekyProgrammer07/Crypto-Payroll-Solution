@@ -3,11 +3,7 @@ import { AuthRequest } from '../types/authRequestInterface';
 import { get } from '@crypto-payroll/config';
 import jwt from 'jsonwebtoken';
 import { tokenInterface } from '../types/tokenInterface';
-
-
-
-const environment = 'default';
-const currentConfig = get(environment);
+import { currentConfig } from '..';
 
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction): any => {
   const authHeader = req.headers.authorization;

@@ -3,9 +3,7 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import prisma from "../../utils/prismaClient";
 import { refreshTokenInterface } from "../../types/tokenInterface";
-
-const environment = 'default';
-const currentConfig = get(environment);
+import { currentConfig } from "../..";
 
 export const refresh = async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken;

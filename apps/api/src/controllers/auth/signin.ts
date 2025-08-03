@@ -5,9 +5,7 @@ import prisma from '../../utils/prismaClient';
 import { get } from '@crypto-payroll/config';
 import { signinSchema } from '@crypto-payroll/types';
 import { z } from 'zod';
-
-const environment = 'default';
-const currentConfig = get(environment);
+import { currentConfig } from '../..';
 
 const signIn = async (req: Request, res: Response): Promise<any> => {
   const parsedInputs = signinSchema.safeParse(req.body);
