@@ -4,9 +4,12 @@ import { get } from '@crypto-payroll/config';
 import connectionToDb from './utils/connectionToDatabase';
 import { setupGracefulShutdown } from './utils/gracefulShutdown';
 import { mainRouter } from './routes/mainRouter';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
+
 
 const environment = 'default';
 const currentConfig = get(environment);

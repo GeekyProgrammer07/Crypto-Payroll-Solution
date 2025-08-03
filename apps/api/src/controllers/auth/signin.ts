@@ -28,7 +28,9 @@ const signIn = async (req: Request, res: Response): Promise<any> => {
     // Generate access token
     const accessToken = jwt.sign(
       {
-        id: user.id,
+        sub: user.id,
+        iss: "crypto-payroll",
+        aud: "crypto-payroll-api",
         email: user.email,
         role: user.role,
       },
@@ -58,14 +60,14 @@ const signIn = async (req: Request, res: Response): Promise<any> => {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: true,
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
       message: 'Logged in successfully',
-      accessToken: `Bearer ${accessToken}`,
+      accessToken,
+      tokenType: 'Bearer'
     });
 
   } catch (error: any) {

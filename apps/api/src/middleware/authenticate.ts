@@ -1,14 +1,10 @@
 import { Response, NextFunction } from 'express';
 import { AuthRequest } from '../types/authRequestInterface';
 import { get } from '@crypto-payroll/config';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { tokenInterface } from '../types/tokenInterface';
 
-interface DecodedToken extends JwtPayload {
-  id: string;
-  email: string;
-  role: string;
-  walletAddress?: string | null;
-}
+
 
 const environment = 'default';
 const currentConfig = get(environment);
@@ -23,10 +19,10 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token!, currentConfig.SECRET!) as DecodedToken;
+    const decoded = jwt.verify(token!, currentConfig.SECRET!) as tokenInterface;
 
     req.user = {
-      id: decoded.id,
+      id: decoded.sub,
       email: decoded.email,
       role: decoded.role,
       walletAddress: decoded.walletAddress ?? null,
