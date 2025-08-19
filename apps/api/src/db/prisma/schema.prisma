@@ -11,7 +11,7 @@ model User {
   id            String   @id @default(uuid())
   email         String   @unique
   passwordHash  String
-  role          String
+  role          Role
   walletAddress String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -41,7 +41,7 @@ model OrgMember {
   memberId      String   @unique
   orgId         String
   walletAddress String?
-  role          String
+  role          Role
   addedById     String
   createdAt     DateTime @default(now())
 
@@ -111,4 +111,9 @@ model Session {
   expiresAt    DateTime
 
   user User @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
 }
