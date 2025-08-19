@@ -31,4 +31,4 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
       message: 'Forbidden: Invalid or expired token'
     });
   }
-};
+}; 

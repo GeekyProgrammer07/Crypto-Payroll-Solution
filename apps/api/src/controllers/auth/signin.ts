@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import prisma from '../../utils/prismaClient';
-import { get } from '@crypto-payroll/config';
 import { signinSchema } from '@crypto-payroll/types';
 import { z } from 'zod';
 import { currentConfig } from '../..';

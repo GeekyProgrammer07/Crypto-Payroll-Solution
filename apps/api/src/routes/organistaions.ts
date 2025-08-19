@@ -5,5 +5,4 @@ import { organisationController } from "../controllers/organisations/organisatio
 
 export const organisations: Router = Router();
 
-// organisations.get('/', authenticate, adminAuth, organisationController)
-organisations.post('/', authenticate, adminAuth, organisationController)
+organisations.post('/create', authenticate, adminAuth, organisationController)
