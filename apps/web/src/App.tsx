@@ -1,10 +1,13 @@
 import { Fragment, useState } from 'react'
 import './App.css'
+import SignUp from './sign-up/SignUp'
+import SignIn from './sign-in/SignIn'
 
 function App() {
   return (
     <Fragment>
-      Hello React
+      <SignUp></SignUp>
+      {/* <SignIn></SignIn>  */}
     </Fragment>
   )
 }
