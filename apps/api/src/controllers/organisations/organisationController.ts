@@ -5,7 +5,6 @@ import { addOrganisationSchema } from "@crypto-payroll/types";
 import { treeifyError } from "zod";
 
 export const organisationController = async (req: AuthRequest, res: Response): Promise<any> => {
-  // res.send("Organisation created successfully");
   const parsedInputs = addOrganisationSchema.safeParse(req.body);
 
   if (!parsedInputs.success) {
@@ -48,6 +47,7 @@ export const organisationController = async (req: AuthRequest, res: Response): P
 
     if (error.code === "P2002") {
       const target = error.meta?.target?.join(', ');
+      console.log(error);
       return res.status(409).json({
         message: `A record with this ${target} already exists.`,
       });
