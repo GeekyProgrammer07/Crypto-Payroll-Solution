@@ -1,9 +1,14 @@
 {
   "extends": "./base.json",
   "compilerOptions": {
+    "composite": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx"
   },
   "include": ["apps/web", "packages/*"]

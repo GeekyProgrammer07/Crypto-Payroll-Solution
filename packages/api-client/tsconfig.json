@@ -1,7 +1,9 @@
 {
   "extends": "@crypto-payroll/typescript-config/base.json",
   "compilerOptions": {
-    "removeComments": true
+    "removeComments": true,
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
   "include": ["src/**/*", "index.ts"],
   "exclude": ["node_modules", "dist"]
