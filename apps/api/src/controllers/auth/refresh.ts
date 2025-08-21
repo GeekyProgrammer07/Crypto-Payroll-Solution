@@ -51,7 +51,7 @@ export const refresh = async (req: Request, res: Response) => {
         expiresIn: '15m'
     });
 
-    return res.json({
+    return res.status(200).json({
         accessToken: `Bearer ${newAccessToken}`
     });
 }

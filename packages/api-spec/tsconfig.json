@@ -1,8 +1,0 @@
-{
-  "extends": "@crypto-payroll/typescript-config/base.json",
-  "compilerOptions": {
-    "removeComments": true
-  },
-  "include": ["src/**/*", "index.ts"],
-  "exclude": ["node_modules", "dist"]
-}
