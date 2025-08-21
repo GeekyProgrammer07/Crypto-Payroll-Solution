@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
-import './App.css'
-import SignUp from './sign-up/SignUp'
-import SignIn from './sign-in/SignIn'
+import './styles/App.css'
+import SignUp from './pages/SignUp'
+import SignIn from './components/sign-in/SignIn'
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 {
-  "name": "@crypto-payroll/api-routes",
+  "name": "@crypto-payroll/api-spec",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",

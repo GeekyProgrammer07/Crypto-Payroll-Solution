@@ -14,8 +14,8 @@ import {
   MenuItem,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ColorModeSelect from "../shared-theme/ColorModeSelect";
-import AppTheme from "../shared-theme/AppTheme";
+import ColorModeSelect from "../components/shared-theme/ColorModeSelect";
+import AppTheme from "../components/shared-theme/AppTheme";
 
 // Styled Card container
 const Card = styled(MuiCard)(({ theme }) => ({
