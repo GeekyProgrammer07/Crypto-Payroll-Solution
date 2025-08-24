@@ -57,16 +57,6 @@ export default function SignInForm() {
             </Button>
 
             {/*Add Forgot Password Here*/}
-            {/* <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
-              <Link
-                href="/material-ui/getting-started/templates/sign-in/"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
-                Sign up
-              </Link>
-            </Typography> */}
             <Typography>
                 (Add Forgot Password Here)
             </Typography>

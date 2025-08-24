@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import ColorModeSelect from "../components/shared-theme/ColorModeSelect";
 import AppTheme from "../components/shared-theme/AppTheme";
 import SignUpForm from "../components/SignUpForm";
+import { Link } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -62,8 +63,12 @@ export default function SignUp() {
           </Divider>
 
           <Typography sx={{ textAlign: "center" }}>
-            Already have an account? (Add routing here)
+            Already have an account?{" "}
+            <Link to="/signin" style={{ textDecoration: "none", color: "#1976d2" }}>
+              Sign in
+            </Link>
           </Typography>
+
         </Card>
       </SignUpContainer>
     </AppTheme>
