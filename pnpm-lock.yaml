@@ -109,6 +109,9 @@ importers:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
     devDependencies:
+      '@crypto-payroll/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@crypto-payroll/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config

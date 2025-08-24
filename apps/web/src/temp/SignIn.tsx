@@ -13,10 +13,9 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import ForgotPassword from './components/ForgotPassword';
-import AppTheme from '../shared-theme/AppTheme';
-import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
+import AppTheme from '../components/shared-theme/AppTheme';
+import ColorModeSelect from '../components/shared-theme/ColorModeSelect';
+import ForgotPassword from './sign-in/components/ForgotPassword';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -120,7 +119,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
-          <SitemarkIcon />
           <Typography
             component="h1"
             variant="h4"
@@ -202,7 +200,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               fullWidth
               variant="outlined"
               onClick={() => alert('Sign in with Google')}
-              startIcon={<GoogleIcon />}
             >
               Sign in with Google
             </Button>
@@ -210,7 +207,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               fullWidth
               variant="outlined"
               onClick={() => alert('Sign in with Facebook')}
-              startIcon={<FacebookIcon />}
             >
               Sign in with Facebook
             </Button>

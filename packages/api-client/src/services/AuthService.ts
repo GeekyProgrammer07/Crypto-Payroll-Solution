@@ -83,6 +83,7 @@ export class AuthService {
             errors: {
                 400: `Validation failed`,
                 401: `Invalid credentials`,
+                404: `User not found`,
                 500: `Internal server error`,
             },
         });
