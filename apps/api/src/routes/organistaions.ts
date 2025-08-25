@@ -8,3 +8,5 @@ export const organisations: Router = Router();
 
 organisations.post('/create', authenticate, adminAuth, addOrganisationController);
 organisations.delete('/delete', authenticate, adminAuth, deleteOrganisaion);
+// organisations.get('/',authenticate, getOrgDetails);
+// organisations.get(':params',authenticate, getOrgDetailsById);

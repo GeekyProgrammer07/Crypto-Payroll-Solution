@@ -36,6 +36,16 @@ export const addOrganisationController = async (req: AuthRequest, res: Response)
       },
     });
 
+    const orgMember = await prisma.orgMember.create({
+      data: {
+        orgId: org.id,
+        memberId: req.user!.id,
+        walletAddress: req.user!.walletAddress ?? "",
+        role: 'ADMIN',
+        addedById: req.user!.id
+      }
+    })
+
     return res.status(201).json({
       message: "Organisation created successfully",
       organisation: {
