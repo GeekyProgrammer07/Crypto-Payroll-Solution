@@ -350,6 +350,8 @@ paths:
                   organisation:
                     type: object
                     properties:
+                      orgId:
+                        type: string
                       name:
                         type: string
                       owner:
@@ -357,8 +359,9 @@ paths:
               example:
                 message: Organisation created successfully
                 organisation:
+                  orgId: ca69bdab
                   name: My Organisation
-                  owner: 12345
+                  owner: 73df1b84
         "400":
           description: Validation failed or missing wallet address
           content:

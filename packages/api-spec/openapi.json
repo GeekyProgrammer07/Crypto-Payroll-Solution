@@ -550,6 +550,9 @@
                                         "organisation": {
                                             "type": "object",
                                             "properties": {
+                                                "orgId": {
+                                                    "type": "string"
+                                                },
                                                 "name": {
                                                     "type": "string"
                                                 },
@@ -563,8 +566,9 @@
                                 "example": {
                                     "message": "Organisation created successfully",
                                     "organisation": {
+                                        "orgId": "ca69bdab",
                                         "name": "My Organisation",
-                                        "owner": 12345
+                                        "owner": "73df1b84"
                                     }
                                 }
                             }

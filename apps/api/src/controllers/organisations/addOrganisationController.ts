@@ -4,7 +4,7 @@ import { AuthRequest } from "../../types/authRequestInterface";
 import { addOrganisationSchema } from "@crypto-payroll/types";
 import { treeifyError } from "zod";
 
-export const organisationController = async (req: AuthRequest, res: Response): Promise<any> => {
+export const addOrganisationController = async (req: AuthRequest, res: Response): Promise<any> => {
   const parsedInputs = addOrganisationSchema.safeParse(req.body);
 
   if (!parsedInputs.success) {
@@ -38,6 +38,7 @@ export const organisationController = async (req: AuthRequest, res: Response): P
     return res.status(201).json({
       message: "Organisation created successfully",
       organisation: {
+        orgId: org.id,
         name: org.name,
         owner: org.ownerId
       },
