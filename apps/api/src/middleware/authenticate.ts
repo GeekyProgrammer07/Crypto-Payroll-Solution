@@ -1,6 +1,5 @@
 import { Response, NextFunction } from 'express';
 import { AuthRequest } from '../types/authRequestInterface';
-import { get } from '@crypto-payroll/config';
 import jwt from 'jsonwebtoken';
 import { tokenInterface } from '../types/tokenInterface';
 import { currentConfig } from '..';

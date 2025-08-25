@@ -1,12 +1,13 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import prisma from "../../utils/prismaClient";
 import { AuthRequest } from "../../types/authRequestInterface";
 import { addOrganisationSchema } from "@crypto-payroll/types";
 import { treeifyError } from "zod";
 
-export const organisationController = async (req: AuthRequest, res: Response): Promise<any> => {
+export const addOrganisationController = async (req: AuthRequest, res: Response): Promise<any> => {
   const parsedInputs = addOrganisationSchema.safeParse(req.body);
 
+  console.log("Inside Add Org");
   if (!parsedInputs.success) {
     const errors = treeifyError(parsedInputs.error);
     return res.status(400).json({ errors });
@@ -35,15 +36,26 @@ export const organisationController = async (req: AuthRequest, res: Response): P
       },
     });
 
+    const orgMember = await prisma.orgMember.create({
+      data: {
+        orgId: org.id,
+        memberId: req.user!.id,
+        walletAddress: req.user!.walletAddress ?? "",
+        role: 'ADMIN',
+        addedById: req.user!.id
+      }
+    })
+
     return res.status(201).json({
       message: "Organisation created successfully",
       organisation: {
+        orgId: org.id,
         name: org.name,
         owner: org.ownerId
       },
     });
   } catch (error: any) {
-    console.log("Organisation Creation Failed full error:", JSON.stringify(error, null, 2));
+    console.error("Organisation Creation Failed full error:", JSON.stringify(error, null, 2));
 
     if (error.code === "P2002") {
       const target = error.meta?.target?.join(', ');

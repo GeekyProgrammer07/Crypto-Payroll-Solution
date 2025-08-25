@@ -8,4 +8,11 @@ export const addOrganisationSchema = z.object({
     .max(100, { message: 'Company name must be less than 100 characters' }),
 });
 
+export const deleteOrganisationSchema = z.object({
+  id: z
+    .string({ message: 'Id is required' })
+    .trim(),
+});
+
 export type AddOrganisationInput = z.infer<typeof addOrganisationSchema>;
+export type DeleteOrganisationInput = z.infer<typeof deleteOrganisationSchema>;
