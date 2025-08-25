@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import ColorModeSelect from "../components/shared-theme/ColorModeSelect";
 import AppTheme from "../components/shared-theme/AppTheme";
 import SignUpForm from "../components/SignUpForm";
+import SignInForm from "../components/SignInForm";
 import { Link } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -26,7 +27,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   },
 }));
 
-const SignUpContainer = styled(Stack)(({ theme }) => ({
+const SignInContainer = styled(Stack)(({ theme }) => ({
   height: "100vh",
   padding: theme.spacing(2),
   [theme.breakpoints.up("sm")]: {
@@ -44,33 +45,32 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignIn() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
       <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
 
-      <SignUpContainer direction="column" justifyContent="center">
+      <SignInContainer direction="column" justifyContent="center">
         <Card variant="elevation">
           <Typography component="h1" variant="h2" sx={{ textAlign: "center", mb: 2 }}>
-            Sign up
+            Sign In
           </Typography>
 
-          <SignUpForm />
+          <SignInForm></SignInForm>
 
           <Divider sx={{ my: 2 }}>
             <Typography sx={{ color: "text.secondary" }}>or</Typography>
           </Divider>
 
           <Typography sx={{ textAlign: "center" }}>
-            Already have an account?{" "}
-            <Link to="/signin" style={{ textDecoration: "none", color: "#1976d2" }}>
-              Sign in
+            Don't have an account?{" "}
+            <Link to="/signup" style={{ textDecoration: "none", color: "#1976d2" }}>
+              Sign up
             </Link>
           </Typography>
-
         </Card>
-      </SignUpContainer>
+      </SignInContainer>
     </AppTheme>
   );
 }
