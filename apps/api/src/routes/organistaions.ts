@@ -7,4 +7,4 @@ import { deleteOrganisaion } from "../controllers/organisations/deleteOrganisati
 export const organisations: Router = Router();
 
 organisations.post('/create', authenticate, adminAuth, addOrganisationController);
-organisations.post('/delete', authenticate, adminAuth, deleteOrganisaion);
+organisations.delete('/delete', authenticate, adminAuth, deleteOrganisaion);

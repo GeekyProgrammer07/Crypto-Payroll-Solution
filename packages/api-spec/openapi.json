@@ -672,6 +672,154 @@
                     }
                 }
             }
+        },
+        "/api/v1/organisations/delete": {
+            "delete": {
+                "tags": [
+                    "Organisation"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "format": "uuid",
+                                        "description": "Unique identifier of the organisation to delete"
+                                    }
+                                },
+                                "required": [
+                                    "id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Organisation deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orgId": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "orgId": "ca69bdab-1234-5678-90ef-abcdef123456",
+                                    "message": "Organisation deleted successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "errors": {
+                                        "id": "Valid organisation ID is required"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, no token provided",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "message": "Unauthorized: No token provided"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden user is not the owner of the organisation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "message": "You are not allowed to delete this organisation"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Organisation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "message": "Organisation not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
