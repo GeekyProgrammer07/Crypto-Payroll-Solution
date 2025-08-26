@@ -8,8 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@crypto-payroll/typescript-config": "workspace:*"
-  }
+  "license": "ISC"
 }
