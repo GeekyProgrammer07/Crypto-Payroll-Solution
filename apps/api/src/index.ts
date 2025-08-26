@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-const environment = 'default';
+const environment = 'production';
 export const currentConfig = get(environment);
 
 app.use('/api/v1', mainRouter);
@@ -36,7 +36,7 @@ app.use((err: any, req: Request, res: Response, next: any) => {
 });
 
 app.listen(currentConfig.PORT, () => {
-  console.log(`Server is Online at: http://localhost:${currentConfig.PORT}`);
+  console.log(`Server is Online`);
 });
 
 connectionToDb();
