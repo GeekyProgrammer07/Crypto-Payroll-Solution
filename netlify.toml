@@ -7,3 +7,8 @@
     pnpm --filter web run build
   """
   publish = "apps/web/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
