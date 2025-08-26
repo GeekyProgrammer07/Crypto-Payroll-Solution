@@ -160,6 +160,9 @@ importers:
       axios:
         specifier: ^1.11.0
         version: 1.11.0
+      dotenv:
+        specifier: ^17.2.1
+        version: 17.2.1
       form-data:
         specifier: ^4.0.4
         version: 4.0.4
@@ -168,11 +171,7 @@ importers:
         specifier: workspace:*
         version: link:../typescript-config
 
-  packages/api-spec:
-    devDependencies:
-      '@crypto-payroll/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
+  packages/api-spec: {}
 
   packages/config:
     devDependencies:
