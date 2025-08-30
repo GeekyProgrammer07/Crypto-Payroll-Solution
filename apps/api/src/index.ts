@@ -24,11 +24,11 @@ app.get('/', (_: Request, res: Response) => {
   res.send('Server is Healthy');
 });
 
-app.use((req: Request, res: Response) => {
-  res.status(404).json({
-    message: "Not Found"
-  });
-});
+// app.use((req: Request, res: Response) => {
+//   res.status(404).json({
+//     message: "Not Found"
+//   });
+// });
 
 app.use((err: any, req: Request, res: Response, next: any) => {
   console.error("Unhandled error:", err);
