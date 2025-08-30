@@ -13,8 +13,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-const environment = 'production';
+const environment = 'default';
 export const currentConfig = get(environment);
+
+process.env.DATABASE_URL = currentConfig.DATABASE;
 
 app.use('/api/v1', mainRouter);
 

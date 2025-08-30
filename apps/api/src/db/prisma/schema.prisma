@@ -21,7 +21,8 @@ model User {
   createdStreams Stream[]       @relation("UserCreatedStreams")
   invoices       Invoice[]      @relation("UserInvoices")
   session        Session?
-  orgMember      OrgMember?     @relation("UserOrgMember")
+  orgMember      OrgMember?     @relation("UserOrgMember", fields: [orgMemberId], references: [id])
+  orgMemberId    String?
 }
 
 model Organisation {
@@ -38,7 +39,7 @@ model Organisation {
 
 model OrgMember {
   id            String   @id @default(uuid())
-  memberId      String   @unique
+  memberId      String
   orgId         String
   walletAddress String?
   role          Role
@@ -49,7 +50,9 @@ model OrgMember {
   addedBy         User         @relation("UserAddedMembers", fields: [addedById], references: [id])
   receivedStreams Stream[]     @relation("StreamReceivers")
   invoices        Invoice[]    @relation("OrgMemberInvoices")
-  member          User         @relation("UserOrgMember", fields: [memberId], references: [id])
+  member          User[]       @relation("UserOrgMember")
+
+  @@unique([orgId, memberId])
 }
 
 model Token {
